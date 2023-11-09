@@ -3,10 +3,9 @@ package com.example.Lavori.controllers;
 import com.example.Lavori.models.User;
 import com.example.Lavori.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("api/user")
 @RestController
@@ -33,4 +32,7 @@ public class UserController {
     public void  addUser(@RequestBody UserRequest userRequest){
         userServiceImpl.addUser(userRequest.getUserName(), userRequest.getLavoroName());
     }
+
+    @GetMapping
+    public List<User> getAllUsers(){return userServiceImpl.getAllUsers();}
 }

@@ -6,6 +6,8 @@ import com.example.Lavori.repositories.LavoroRepository;
 import com.example.Lavori.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl {
 
@@ -29,4 +31,6 @@ public class UserServiceImpl {
         user.setLavoro(lavoro);
         return userRepository.save(user);
     }
+
+    public List<User> getAllUsers(){return userRepository.findAll();}
 }
