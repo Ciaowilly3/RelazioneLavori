@@ -40,4 +40,8 @@ public class User {
     public String getId() {
         return userId;
     }
+
+    public Lavoro getLavoro() {
+        return lavoro;
+    }
 }

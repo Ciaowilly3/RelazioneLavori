@@ -20,4 +20,10 @@ public class LavoroController {
 
     @GetMapping
     public List<Lavoro> getAllLavori(){return lavoroServiceImpl.getAllLavori();}
+
+    @GetMapping(path = "/{name}")
+    public Lavoro findByUserName(@PathVariable("name") String name){
+       Lavoro lavoro = lavoroServiceImpl.findByUserName(name);
+       return lavoro;
+    }
 }
