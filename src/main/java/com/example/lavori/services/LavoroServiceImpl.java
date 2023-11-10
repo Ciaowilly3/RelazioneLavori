@@ -34,11 +34,6 @@ public class LavoroServiceImpl {
         val userList = userRepository.findByName(name);
         System.out.println(userList);
         val lavoroList = userList.stream().map(User::getLavoro).toList();
-//        return lavoroRepository.findByLavoroName((lavoroList.forEach(lavoro -> lavoro.getLavoroName())));
-//        return lavoroList.forEach(lavoro ->  lavoroRepository.findByLavoroName(lavoro.getLavoroName()));
-//        for (Lavoro lavoro : lavoroList){
-//            return lavoroRepository.findByLavoroName(lavoro.getLavoroName());
-//        }
         return lavoroList;
     }
 

@@ -5,6 +5,7 @@ import com.example.lavori.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Period;
 import java.util.List;
 
 @RequestMapping("api/user")
@@ -35,4 +36,9 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers(){return userServiceImpl.getAllUsers();}
+
+    @PutMapping(path = "{id}")
+    public  void updateUser(@PathVariable("id") String id, @RequestBody User userToUpdate){
+        userServiceImpl.updateUser(id, userToUpdate);
+    }
 }

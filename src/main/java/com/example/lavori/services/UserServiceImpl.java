@@ -8,6 +8,7 @@ import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl {
@@ -35,4 +36,16 @@ public class UserServiceImpl {
     }
 
     public List<User> getAllUsers(){return userRepository.findAll();}
+
+    public User updateUser(String idToUpdate, User user) {
+        Optional<User> userToUpdate = userRepository.findById(idToUpdate);
+        return userToUpdate
+                .map(u -> {
+                    u.setName(user.getName());
+                    userRepository.save(u);
+                    return u;
+                })
+                .orElse(null);
+    }
 }
+
