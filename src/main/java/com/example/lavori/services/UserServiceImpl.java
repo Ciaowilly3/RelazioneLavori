@@ -1,9 +1,10 @@
-package com.example.Lavori.services;
+package com.example.lavori.services;
 
-import com.example.Lavori.models.Lavoro;
-import com.example.Lavori.models.User;
-import com.example.Lavori.repositories.LavoroRepository;
-import com.example.Lavori.repositories.UserRepository;
+import com.example.lavori.models.Lavoro;
+import com.example.lavori.models.User;
+import com.example.lavori.repositories.LavoroRepository;
+import com.example.lavori.repositories.UserRepository;
+import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class UserServiceImpl {
     }
 
     public User addUser(String userName, String lavoroName){
-        Lavoro lavoro = lavoroRepository.findByLavoroName(lavoroName);
+        val lavoroList = lavoroRepository.findByLavoroName(lavoroName);
+        var lavoro = lavoroList.get(0);
         if (lavoro == null){
             lavoro = new Lavoro();
             lavoro.setLavoroName(lavoroName);

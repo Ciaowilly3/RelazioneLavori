@@ -1,7 +1,8 @@
-package com.example.Lavori.controllers;
+package com.example.lavori.controllers;
 
-import com.example.Lavori.models.Lavoro;
-import com.example.Lavori.services.LavoroServiceImpl;
+import com.example.lavori.models.Lavoro;
+import com.example.lavori.services.LavoroServiceImpl;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,8 @@ public class LavoroController {
     public List<Lavoro> getAllLavori(){return lavoroServiceImpl.getAllLavori();}
 
     @GetMapping(path = "/{name}")
-    public Lavoro findByUserName(@PathVariable("name") String name){
-       Lavoro lavoro = lavoroServiceImpl.findByUserName(name);
-       return lavoro;
+    public List<Lavoro> findByUserName(@PathVariable("name") String name){
+       val lavoroList = lavoroServiceImpl.findByUserName(name);
+       return lavoroList;
     }
 }

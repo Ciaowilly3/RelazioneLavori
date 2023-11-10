@@ -1,10 +1,11 @@
-package com.example.Lavori.models;
+package com.example.lavori.models;
 
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Data;
 
 import java.util.UUID;
 
+@Data
 @Entity
 @Table(name = "u1_0")
 public class User {
@@ -25,23 +26,4 @@ public class User {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLavoro(Lavoro lavoro){
-        this.lavoro = lavoro;
-    }
-
-    public String getId() {
-        return userId;
-    }
-
-    public Lavoro getLavoro() {
-        return lavoro;
-    }
 }

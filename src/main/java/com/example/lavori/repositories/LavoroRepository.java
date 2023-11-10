@@ -1,11 +1,10 @@
-package com.example.Lavori.repositories;
+package com.example.lavori.repositories;
 
-import com.example.Lavori.models.Lavoro;
+import com.example.lavori.models.Lavoro;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface LavoroRepository extends JpaRepository<Lavoro, String> {
-    Lavoro findByLavoroName(String lavoroName);
+    List<Lavoro> findByLavoroName(String lavoroName);
 }

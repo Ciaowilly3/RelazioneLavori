@@ -1,7 +1,7 @@
-package com.example.Lavori.controllers;
+package com.example.lavori.controllers;
 
-import com.example.Lavori.models.User;
-import com.example.Lavori.services.UserServiceImpl;
+import com.example.lavori.models.User;
+import com.example.lavori.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
