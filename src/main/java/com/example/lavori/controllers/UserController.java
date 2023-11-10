@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers(){return userServiceImpl.getAllUsers();}
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/{id}")
     public User getUserById (@PathVariable("id") String id) {
         return userServiceImpl.getUserById(id)
                 .orElse(null);

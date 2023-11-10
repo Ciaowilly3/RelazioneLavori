@@ -22,6 +22,16 @@ public class LavoroController {
     @GetMapping
     public List<Lavoro> getAllLavori(){return lavoroServiceImpl.getAllLavori();}
 
+    @GetMapping(path = "/singleLavoro/{id}")
+    public Lavoro getLavoroById(@PathVariable("id") String id){
+        return lavoroServiceImpl.getLavoroById(id)
+                .orElse(null);
+    }
+    @PutMapping(path = "/{id}")
+    public void updateLavoro(@PathVariable("id") String id,@RequestBody Lavoro lavoro){
+        lavoroServiceImpl.updateLavoro(id, lavoro);
+    }
+
     @GetMapping(path = "/{name}")
     public List<Lavoro> findByUserName(@PathVariable("name") String name){
        val lavoroList = lavoroServiceImpl.findByUserName(name);
