@@ -48,12 +48,27 @@ public class LavoroServiceImpl {
                 .orElse(null);
     }
 
+    public void deleteLavoro(String id){
+        Optional<Lavoro> lavoroTodelete = lavoroRepository.findById(id);
+        lavoroTodelete
+                .map(l -> {
+                    List<User> usersTodelete = userRepository.findByLavoro(l);
+                    usersTodelete.forEach(u -> userRepository.delete(u));
+                    lavoroRepository.delete(l);
+                    return l;
+                })
+                .orElse(null)
+        ;
+    }
+
     public List<Lavoro> findByUserName(String name){
         val userList = userRepository.findByName(name);
         System.out.println(userList);
         val lavoroList = userList.stream().map(User::getLavoro).toList();
         return lavoroList;
     }
+
+
 
 
 }

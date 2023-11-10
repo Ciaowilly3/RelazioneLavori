@@ -37,4 +37,9 @@ public class LavoroController {
        val lavoroList = lavoroServiceImpl.findByUserName(name);
        return lavoroList;
     }
+
+    @DeleteMapping(path = "{id}")
+    public void deleteLavoro(@PathVariable("id") String id){
+        lavoroServiceImpl.deleteLavoro(id);
+    }
 }

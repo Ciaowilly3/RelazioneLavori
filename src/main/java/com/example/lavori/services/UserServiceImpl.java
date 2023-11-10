@@ -48,6 +48,11 @@ public class UserServiceImpl {
                 .orElse(null);
     }
 
+    public void deleteUser(String idToDelete){
+//        Optional<User> userToDelete = userRepository.findById(idToDelete).map(u -> userRepository.delete(u))
+        userRepository.deleteById(idToDelete);
+    }
+
     public Optional<User> getUserById(String id){
         return userRepository.findById(id);
     }
