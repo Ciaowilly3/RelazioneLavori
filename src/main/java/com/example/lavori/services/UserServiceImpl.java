@@ -47,5 +47,9 @@ public class UserServiceImpl {
                 })
                 .orElse(null);
     }
+
+    public Optional<User> getUserById(String id){
+        return userRepository.findById(id);
+    }
 }
 

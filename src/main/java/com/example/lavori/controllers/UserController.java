@@ -37,6 +37,11 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers(){return userServiceImpl.getAllUsers();}
 
+    @GetMapping(path = "{id}")
+    public User getUserById (@PathVariable("id") String id) {
+        return userServiceImpl.getUserById(id)
+                .orElse(null);
+    }
     @PutMapping(path = "{id}")
     public  void updateUser(@PathVariable("id") String id, @RequestBody User userToUpdate){
         userServiceImpl.updateUser(id, userToUpdate);
