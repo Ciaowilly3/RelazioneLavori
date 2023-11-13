@@ -83,7 +83,7 @@ public class UserServiceImpl {
             users = "nessun risultato";
         }
         for (int i=0; i< userList.size(); i++) {
-            users = users + ", " + userList.get(i).getName();
+            users = users + userList.get(i).getName() + ", ";
         }
         log.info("End - getUserByChar - out: {}", users);
         return users;
