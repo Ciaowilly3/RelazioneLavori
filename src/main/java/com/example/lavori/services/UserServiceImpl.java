@@ -4,6 +4,7 @@ import com.example.lavori.models.Lavoro;
 import com.example.lavori.models.User;
 import com.example.lavori.repositories.LavoroRepository;
 import com.example.lavori.repositories.UserRepository;
+import com.example.lavori.uties.CharFiltersValidationUties;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,9 @@ public class UserServiceImpl {
     }
     public String getUserByChar(String filters){
         log.info("Start - getUserByChar - args: filters={}", filters);
+        if (!CharFiltersValidationUties.charFiltersValidation(filters)){
+            return "input non valido";
+        }
         val  userList = userRepository.findByNameStartingWith(filters);
         var users = " ";
         if (userList.isEmpty()){
