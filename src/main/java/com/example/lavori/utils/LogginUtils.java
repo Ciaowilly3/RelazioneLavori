@@ -1,4 +1,4 @@
-package com.example.lavori.uties;
+package com.example.lavori.utils;
 
 import com.example.lavori.models.User;
 import lombok.experimental.UtilityClass;
@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @UtilityClass
 @Slf4j
-public class LogginUties {
+public class LogginUtils {
     public void logBanana(User user){
 
         log.error("Banana");

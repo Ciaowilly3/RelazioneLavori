@@ -1,10 +1,12 @@
 package com.example.lavori.services;
 
+import com.example.lavori.exceptions.InvalidSearchKeyException;
+import com.example.lavori.exceptions.UsersByNameNotFoundException;
 import com.example.lavori.models.Lavoro;
 import com.example.lavori.models.User;
 import com.example.lavori.repositories.LavoroRepository;
 import com.example.lavori.repositories.UserRepository;
-import com.example.lavori.uties.CharFiltersValidationUties;
+import com.example.lavori.utils.StringValidationUtils;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -72,20 +75,54 @@ public class UserServiceImpl {
         return user;
 
     }
-    public String getUserByChar(String filters){
-        log.info("Start - getUserByChar - args: filters={}", filters);
-        if (!CharFiltersValidationUties.charFiltersValidation(filters)){
-            return "input non valido";
+    /*public String retrieveSerializedNamesByUserName(String searchKey){
+        log.info("Start - getUserByChar - args: searchKey={}", searchKey);
+        if (!StringValidationUtils.areOnlyLetters(searchKey)){
+            throw new InvalidSearchKeyException("not valid input");
         }
-        val  userList = userRepository.findByNameStartingWith(filters);
-        var users = " ";
+        val  userList = userRepository.findByNameStartingWith(searchKey);
         if (userList.isEmpty()){
-            users = "nessun risultato";
+            throw new UsersByNameNotFoundException("no record found");
         }
-        for (int i=0; i< userList.size(); i++) {
-            users = users + userList.get(i).getName() + ", ";
+        val users = new StringBuilder();
+        for (val user : userList) {
+            users.append(user.getName()).append(", ");
         }
         log.info("End - getUserByChar - out: {}", users);
+        return users.toString().substring(0, users.length()-2);*/
+        // TODO: la stringa finale ha una virgola in più capire come toglierla
+        // TODO: utilizzare String.join e come utlizzare con funzioni stream().map
+        // TODO: Utilizzare direttamente la Query giusta per selezionare solo il name
+    //}
+    /*public String retrieveSerializedNamesByUserName(String searchKey){
+        log.info("Start - getUserByChar - args: searchKey={}", searchKey);
+        if (!StringValidationUtils.areOnlyLetters(searchKey)){
+            throw new InvalidSearchKeyException("not valid input");
+        }
+        val  userList = userRepository.findNamesByNameStartingWith(searchKey);
+        if (userList.isEmpty()){
+            throw new UsersByNameNotFoundException("no record found");
+        }
+        val users = new StringBuilder();
+        for (val user : userList) {
+            users.append(user).append(", ");
+        }
+        log.info("End - getUserByChar - out: {}", users);
+        return users.toString().substring(0, users.length()-2);
+    }
+    */
+    public String retrieveSerializedNamesByUserName(String searchKey) {
+        log.info("Start - getUserByChar - args: searchKey={}", searchKey);
+        if (!StringValidationUtils.areOnlyLetters(searchKey)) {
+            throw new InvalidSearchKeyException("not valid input");
+        }
+        val userList = userRepository.findNamesByNameStartingWith(searchKey);
+        if (userList.isEmpty()) {
+            throw new UsersByNameNotFoundException("no record found");
+        }
+        val users = userList.stream()
+                .map(String::toString)
+                .collect(Collectors.joining(", "));
         return users;
     }
 }

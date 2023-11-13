@@ -1,28 +1,27 @@
 package com.example.lavori.controllers;
 
+import com.example.lavori.exceptions.UsersByNameNotFoundException;
 import com.example.lavori.models.User;
 import com.example.lavori.services.UserServiceImpl;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.Getter;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Period;
+
 import java.util.List;
 
 @RequestMapping("api/user")
 @RestController
 public class UserController {
 
+    @Getter
     public static class UserRequest{
         private String userName;
         private String lavoroName;
 
-        public String getUserName() {
-            return userName;
-        }
-
-        public String getLavoroName() {
-            return lavoroName;
-        }
     }
     private final UserServiceImpl userServiceImpl;
 
@@ -39,8 +38,9 @@ public class UserController {
 
     @GetMapping(path = "/{id}")
     public User getUserById (@PathVariable("id") String id) {
-        return userServiceImpl.getUserById(id)
-                .orElse(null);
+        val user = userServiceImpl.getUserById(id);
+        return user.orElse(null);
+        // TODO: Controller advise nel configuration
     }
     @PutMapping(path = "{id}")
     public  void updateUser(@PathVariable("id") String id, @RequestBody User userToUpdate){
@@ -53,7 +53,10 @@ public class UserController {
     }
 
     @GetMapping(path = "name/{filters}")
-    public String getUserByChar(@PathVariable("filters") String filters){
-        return userServiceImpl.getUserByChar(filters);
+    public String getUserByChar(@PathVariable("filters")
+            @Pattern(regexp = "^[a-zA-Z]+$", message = "il parametro deve contenere solo caratteri dell'alfabeto internazionale")
+            @NotBlank(message = "il parametro non deve essere blank o null")
+                                    String filters){
+        return userServiceImpl.retrieveSerializedNamesByUserName(filters);
     }
 }
