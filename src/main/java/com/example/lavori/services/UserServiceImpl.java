@@ -4,13 +4,16 @@ import com.example.lavori.models.Lavoro;
 import com.example.lavori.models.User;
 import com.example.lavori.repositories.LavoroRepository;
 import com.example.lavori.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
+@Slf4j
 public class UserServiceImpl {
 
     private final UserRepository userRepository;
@@ -22,39 +25,64 @@ public class UserServiceImpl {
     }
 
     public User addUser(String userName, String lavoroName){
-        val lavoroList = lavoroRepository.findByLavoroName(lavoroName);
-        var lavoro = lavoroList.get(0);
-        if (lavoro == null){
-            lavoro = new Lavoro();
-            lavoro.setLavoroName(lavoroName);
-            lavoroRepository.save(lavoro);
+        log.info("Start - addUser - args: user e lavoro {} {}", userName, lavoroName);
+        var lavoro = lavoroRepository.findFirstByLavoroNameOrderByLavoroIdAsc(lavoroName);
+        if (lavoro.isEmpty()) {
+            lavoro = Optional.of(Lavoro.builder().lavoroName(lavoroName).build());
+            lavoro.get().setLavoroId(UUID.randomUUID().toString());
+            lavoroRepository.save(lavoro.get());
         }
-        User user = new User();
+        val user = new User();
         user.setName(userName);
-        user.setLavoro(lavoro);
+        user.setLavoro(lavoro.get());
+        log.info("End - addUser - out: {}", user);
         return userRepository.save(user);
     }
 
-    public List<User> getAllUsers(){return userRepository.findAll();}
+    public List<User> getAllUsers(){
+        log.info("Start - getAllUsers - args: none");
+        val allUsers = userRepository.findAll();
+        log.info("End - getAllUsers - args: none");
+        return allUsers;
+    }
 
-    public User updateUser(String idToUpdate, User user) {
-        Optional<User> userToUpdate = userRepository.findById(idToUpdate);
-        return userToUpdate
+    public Optional<User> updateUser(String idToUpdate, User user) {
+        log.info("Start - updateUser - args: id e user {} {} ", idToUpdate, user);
+        return userRepository.findById(idToUpdate)
                 .map(u -> {
                     u.setName(user.getName());
                     userRepository.save(u);
+                    log.info("End - updateUser - out {} ", u);
                     return u;
-                })
-                .orElse(null);
+                });
     }
 
     public void deleteUser(String idToDelete){
-//        Optional<User> userToDelete = userRepository.findById(idToDelete).map(u -> userRepository.delete(u))
+        log.info("Start - deleteUser - args: id={}", idToDelete);
+        val user = userRepository.findById(idToDelete);
         userRepository.deleteById(idToDelete);
+        log.info("End - deleteUser - out: {}", user);
     }
 
     public Optional<User> getUserById(String id){
-        return userRepository.findById(id);
+        log.info("Start - getUserById - args: id={}", id);
+        val user = userRepository.findById(id);
+        log.info("Start - getUserById - out:{}", user);
+        return user;
+
+    }
+    public String getUserByChar(String filters){
+        log.info("Start - getUserByChar - args: filters={}", filters);
+        val  userList = userRepository.findByNameStartingWith(filters);
+        var users = " ";
+        if (userList.isEmpty()){
+            users = "nessun risultato";
+        }
+        for (int i=0; i< userList.size(); i++) {
+            users = users + ", " + userList.get(i).getName();
+        }
+        log.info("End - getUserByChar - out: {}", users);
+        return users;
     }
 }
 
