@@ -7,6 +7,7 @@ import com.example.lavori.models.User;
 import com.example.lavori.repositories.LavoroRepository;
 import com.example.lavori.repositories.UserRepository;
 import com.example.lavori.utils.StringValidationUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -14,21 +15,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl {
 
     private final UserRepository userRepository;
     private final LavoroRepository lavoroRepository;
 
-    public UserServiceImpl(UserRepository userRepository, LavoroRepository lavoroRepository){
-        this.userRepository = userRepository;
-        this.lavoroRepository = lavoroRepository;
-    }
-
-    public User addUser(String userName, String lavoroName){
+    public void addUser(String userName, String lavoroName){
         log.info("Start - addUser - args: user e lavoro {} {}", userName, lavoroName);
         var lavoro = lavoroRepository.findFirstByLavoroNameOrderByLavoroIdAsc(lavoroName);
         if (lavoro.isEmpty()) {
@@ -40,7 +36,7 @@ public class UserServiceImpl {
         user.setName(userName);
         user.setLavoro(lavoro.get());
         log.info("End - addUser - out: {}", user);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public List<User> getAllUsers(){
@@ -50,9 +46,9 @@ public class UserServiceImpl {
         return allUsers;
     }
 
-    public Optional<User> updateUser(String idToUpdate, User user) {
+    public void updateUser(String idToUpdate, User user) {
         log.info("Start - updateUser - args: id e user {} {} ", idToUpdate, user);
-        return userRepository.findById(idToUpdate)
+        userRepository.findById(idToUpdate)
                 .map(u -> {
                     u.setName(user.getName());
                     userRepository.save(u);
@@ -75,7 +71,7 @@ public class UserServiceImpl {
         return user;
 
     }
-    /*public String retrieveSerializedNamesByUserName(String searchKey){
+    public String retrieveSerializedNamesByUserName(String searchKey){
         log.info("Start - getUserByChar - args: searchKey={}", searchKey);
         if (!StringValidationUtils.areOnlyLetters(searchKey)){
             throw new InvalidSearchKeyException("not valid input");
@@ -89,12 +85,11 @@ public class UserServiceImpl {
             users.append(user.getName()).append(", ");
         }
         log.info("End - getUserByChar - out: {}", users);
-        return users.toString().substring(0, users.length()-2);*/
-        // TODO: la stringa finale ha una virgola in più capire come toglierla
-        // TODO: utilizzare String.join e come utlizzare con funzioni stream().map
-        // TODO: Utilizzare direttamente la Query giusta per selezionare solo il name
-    //}
-    /*public String retrieveSerializedNamesByUserName(String searchKey){
+        return users.substring(0, users.length()-2);
+
+        // TODO: Creare interfacce services
+    }
+    public String retrieveSerializedNamesByUserNamev2(String searchKey){
         log.info("Start - getUserByChar - args: searchKey={}", searchKey);
         if (!StringValidationUtils.areOnlyLetters(searchKey)){
             throw new InvalidSearchKeyException("not valid input");
@@ -108,10 +103,10 @@ public class UserServiceImpl {
             users.append(user).append(", ");
         }
         log.info("End - getUserByChar - out: {}", users);
-        return users.toString().substring(0, users.length()-2);
+        return users.substring(0, users.length()-2);
     }
-    */
-    public String retrieveSerializedNamesByUserName(String searchKey) {
+
+    public String retrieveSerializedNamesByUserNamev3(String searchKey) {
         log.info("Start - getUserByChar - args: searchKey={}", searchKey);
         if (!StringValidationUtils.areOnlyLetters(searchKey)) {
             throw new InvalidSearchKeyException("not valid input");
@@ -120,10 +115,7 @@ public class UserServiceImpl {
         if (userList.isEmpty()) {
             throw new UsersByNameNotFoundException("no record found");
         }
-        val users = userList.stream()
-                .map(String::toString)
-                .collect(Collectors.joining(", "));
-        return users;
+        return String.join(", ", userList);
     }
 }
 

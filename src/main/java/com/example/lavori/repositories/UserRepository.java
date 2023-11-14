@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query("SELECT u.name FROM User u WHERE u.name LIKE :searchKey%")
     List<String> findNamesByNameStartingWith(@Param("searchKey") String searchKey);
+
 }

@@ -1,6 +1,7 @@
 package com.example.lavori.models;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
