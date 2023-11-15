@@ -1,16 +1,14 @@
 package com.example.lavori.repositories;
 
 import com.example.lavori.models.User;
-import com.example.lavori.services.UserServiceImpl;
+import com.example.lavori.services.Impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 

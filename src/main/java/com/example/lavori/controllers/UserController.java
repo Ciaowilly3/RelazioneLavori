@@ -1,8 +1,7 @@
 package com.example.lavori.controllers;
 
-import com.example.lavori.exceptions.UsersByNameNotFoundException;
 import com.example.lavori.models.User;
-import com.example.lavori.services.UserServiceImpl;
+import com.example.lavori.services.Impl.UserServiceImpl;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -40,7 +39,6 @@ public class UserController {
     public User getUserById (@PathVariable("id") String id) {
         val user = userServiceImpl.getUserById(id);
         return user.orElse(null);
-        // TODO: Controller advise nel configuration
     }
     @PutMapping(path = "{id}")
     public  void updateUser(@PathVariable("id") String id, @RequestBody User userToUpdate){
@@ -54,8 +52,8 @@ public class UserController {
 
     @GetMapping(path = "name/{filters}")
     public String getUserByChar(@PathVariable("filters")
-            @Pattern(regexp = "^[a-zA-Z]+$", message = "il parametro deve contenere solo caratteri dell'alfabeto internazionale")
-            @NotBlank(message = "il parametro non deve essere blank o null")
+            @Pattern(regexp = "^[a-zA-Z]+$", message = "The filter has to contain only regular characters")
+            @NotBlank(message = "The filter can't be blank or null")
                                     String filters){
         return userServiceImpl.retrieveSerializedNamesByUserName(filters);
     }

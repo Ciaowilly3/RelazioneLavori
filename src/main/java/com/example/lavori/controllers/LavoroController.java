@@ -1,7 +1,7 @@
 package com.example.lavori.controllers;
 
 import com.example.lavori.models.Lavoro;
-import com.example.lavori.services.LavoroServiceImpl;
+import com.example.lavori.services.Impl.LavoroServiceImpl;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
 package com.example.lavori.controllers;
 
 import com.example.lavori.models.User;
-import com.example.lavori.services.UserServiceImpl;
+import com.example.lavori.services.Impl.UserServiceImpl;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,4 +1,4 @@
-package com.example.lavori.services;
+package com.example.lavori.services.Impl;
 
 import com.example.lavori.exceptions.InvalidSearchKeyException;
 import com.example.lavori.exceptions.UsersByNameNotFoundException;
@@ -6,6 +6,7 @@ import com.example.lavori.models.Lavoro;
 import com.example.lavori.models.User;
 import com.example.lavori.repositories.LavoroRepository;
 import com.example.lavori.repositories.UserRepository;
+import com.example.lavori.services.UserService;
 import com.example.lavori.utils.StringValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final LavoroRepository lavoroRepository;

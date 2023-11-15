@@ -2,6 +2,7 @@ package com.example.lavori.services;
 
 import com.example.lavori.models.User;
 import com.example.lavori.repositories.UserRepository;
+import com.example.lavori.services.Impl.UserServiceImpl;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
