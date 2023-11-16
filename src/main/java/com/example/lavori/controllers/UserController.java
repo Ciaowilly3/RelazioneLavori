@@ -1,5 +1,6 @@
 package com.example.lavori.controllers;
 
+import com.example.lavori.dto.UserRequestDto;
 import com.example.lavori.models.User;
 import com.example.lavori.services.Impl.UserServiceImpl;
 import jakarta.validation.constraints.NotBlank;
@@ -16,19 +17,13 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @Getter
-    public static class UserRequest{
-        private String userName;
-        private String lavoroName;
-
-    }
     private final UserServiceImpl userServiceImpl;
 
     @Autowired
     public UserController(UserServiceImpl userServiceImpl){this.userServiceImpl = userServiceImpl;}
 
     @PostMapping
-    public void  addUser(@RequestBody UserRequest userRequest){
+    public void  addUser(@RequestBody UserRequestDto userRequest){
         userServiceImpl.addUser(userRequest.getUserName(), userRequest.getLavoroName());
     }
 
@@ -36,17 +31,17 @@ public class UserController {
     public List<User> getAllUsers(){return userServiceImpl.getAllUsers();}
 
     @GetMapping(path = "/{id}")
-    public User getUserById (@PathVariable("id") String id) {
+    public User getUserById (@PathVariable("id") Long id) {
         val user = userServiceImpl.getUserById(id);
         return user.orElse(null);
     }
     @PutMapping(path = "{id}")
-    public  void updateUser(@PathVariable("id") String id, @RequestBody User userToUpdate){
+    public  void updateUser(@PathVariable("id") Long id, @RequestBody User userToUpdate){
         userServiceImpl.updateUser(id, userToUpdate);
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteUser(@PathVariable("id")String id){
+    public void deleteUser(@PathVariable("id")Long id){
         userServiceImpl.deleteUser(id);
     }
 
@@ -57,5 +52,5 @@ public class UserController {
                                     String filters){
         return userServiceImpl.retrieveSerializedNamesByUserName(filters);
     }
-    // TODO: Tradurre tutto in inglese
+
 }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByName(String name);
     List<User> findByLavoro(Lavoro lavoro);
     List <User> findByNameStartingWith(String filters);

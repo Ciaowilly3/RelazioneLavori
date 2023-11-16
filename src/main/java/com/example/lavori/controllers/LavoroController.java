@@ -23,23 +23,22 @@ public class LavoroController {
     public List<Lavoro> getAllLavori(){return lavoroServiceImpl.getAllLavori();}
 
     @GetMapping(path = "/singleLavoro/{id}")
-    public Lavoro getLavoroById(@PathVariable("id") String id){
+    public Lavoro getLavoroById(@PathVariable("id") Long id){
         return lavoroServiceImpl.getLavoroById(id)
                 .orElse(null);
     }
     @PutMapping(path = "/{id}")
-    public void updateLavoro(@PathVariable("id") String id,@RequestBody Lavoro lavoro){
+    public void updateLavoro(@PathVariable("id") Long id,@RequestBody Lavoro lavoro){
         lavoroServiceImpl.updateLavoro(id, lavoro);
     }
 
     @GetMapping(path = "/{name}")
     public List<Lavoro> findByUserName(@PathVariable("name") String name){
-       val lavoroList = lavoroServiceImpl.findByUserName(name);
-       return lavoroList;
+        return lavoroServiceImpl.findByUserName(name);
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteLavoro(@PathVariable("id") String id){
+    public void deleteLavoro(@PathVariable("id") Long id){
         lavoroServiceImpl.deleteLavoro(id);
     }
 }

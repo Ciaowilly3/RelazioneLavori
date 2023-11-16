@@ -11,11 +11,11 @@ public interface LavoroService {
 
     public List<Lavoro> getAllLavori();
 
-    public Optional<Lavoro> getLavoroById(String id);
+    public Optional<Lavoro> getLavoroById(Long id);
 
-    public void updateLavoro(String idToUpdate, Lavoro lavoro);
+    public void updateLavoro(Long idToUpdate, Lavoro lavoro);
 
-    public void deleteLavoro(String id);
+    public void deleteLavoro(Long id);
 
     public List<Lavoro> findByUserName(String name);
 }

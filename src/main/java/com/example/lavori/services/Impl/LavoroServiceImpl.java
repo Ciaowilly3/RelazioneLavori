@@ -39,14 +39,14 @@ public class LavoroServiceImpl implements LavoroService {
         return allLavori;
     }
 
-    public Optional<Lavoro> getLavoroById(String id){
+    public Optional<Lavoro> getLavoroById(Long id){
         log.info("Start - getLavoroById - args: id={}", id);
         val lavoro = lavoroRepository.findById(id);
         log.info("End - getLavoroById - out: {}", lavoro);
         return lavoro;
     }
 
-    public void updateLavoro(String idToUpdate, Lavoro lavoro){
+    public void updateLavoro(Long idToUpdate, Lavoro lavoro){
         log.info("Start - updateLavoro - args: id e lavoro {} {}", idToUpdate, lavoro);
         Optional<Lavoro> lavoroToUpdate = lavoroRepository.findById(idToUpdate);
         lavoroToUpdate
@@ -58,7 +58,7 @@ public class LavoroServiceImpl implements LavoroService {
                 });
     }
 
-    public void deleteLavoro(String id){
+    public void deleteLavoro(Long id){
         log.info("Start - deleteLavoro - args: id={}", id);
         val lavoroToDelete = lavoroRepository.findById(id);
         if (lavoroToDelete.isEmpty()){

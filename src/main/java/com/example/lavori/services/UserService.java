@@ -11,11 +11,11 @@ public interface UserService {
 
     public List<User> getAllUsers();
 
-    public void updateUser(String idToUpdate, User user);
+    public void updateUser(Long idToUpdate, User user);
 
-    public void deleteUser(String idToDelete);
+    public void deleteUser(Long idToDelete);
 
-    public Optional<User> getUserById(String id);
+    public Optional<User> getUserById(Long id);
 
     public String retrieveSerializedNamesByUserName(String searchKey);
 

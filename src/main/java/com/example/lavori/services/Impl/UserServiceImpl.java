@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
         var lavoro = lavoroRepository.findFirstByLavoroNameOrderByLavoroIdAsc(lavoroName);
         if (lavoro.isEmpty()) {
             lavoro = Optional.of(Lavoro.builder().lavoroName(lavoroName).build());
-            lavoro.get().setLavoroId(UUID.randomUUID().toString());
             lavoroRepository.save(lavoro.get());
         }
         val user = new User();
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
         return allUsers;
     }
 
-    public void updateUser(String idToUpdate, User user) {
+    public void updateUser(Long idToUpdate, User user) {
         log.info("Start - updateUser - args: id e user {} {} ", idToUpdate, user);
         userRepository.findById(idToUpdate)
                 .map(u -> {
@@ -58,14 +57,14 @@ public class UserServiceImpl implements UserService {
                 });
     }
 
-    public void deleteUser(String idToDelete){
+    public void deleteUser(Long idToDelete){
         log.info("Start - deleteUser - args: id={}", idToDelete);
         val user = userRepository.findById(idToDelete);
         userRepository.deleteById(idToDelete);
         log.info("End - deleteUser - out: {}", user);
     }
 
-    public Optional<User> getUserById(String id){
+    public Optional<User> getUserById(Long id){
         log.info("Start - getUserById - args: id={}", id);
         val user = userRepository.findById(id);
         log.info("Start - getUserById - out:{}", user);
@@ -87,8 +86,6 @@ public class UserServiceImpl implements UserService {
         }
         log.info("End - getUserByChar - out: {}", users);
         return users.substring(0, users.length()-2);
-
-        // TODO: Creare interfacce services
     }
     public String retrieveSerializedNamesByUserNamev2(String searchKey){
         log.info("Start - getUserByChar - args: searchKey={}", searchKey);
