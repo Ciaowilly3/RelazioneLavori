@@ -1,7 +1,8 @@
 package com.example.jobs.controllers;
 
 import com.example.jobs.dto.UserRequestDto;
-import com.example.jobs.mappers.UserMapper;
+import com.example.jobs.mappers.UserAutoMapper;
+//import com.example.jobs.mappers.UserMapper;
 import com.example.jobs.models.Job;
 import com.example.jobs.models.User;
 import com.example.jobs.services.Impl.UserServiceImpl;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.*;
 class UserControllerTest {
 
     @Mock
-    private UserMapper userMapper;
+    private UserAutoMapper userAutoMapper;
     @Mock
     private UserServiceImpl userServiceImpl;
 
@@ -32,7 +33,7 @@ class UserControllerTest {
     private UserController userController;
     @Test
     void addUser() {
-        val user = User.builder().userId(12L).name("Marco").build();
+        val user = User.builder().userId(12L).userName("Marco").build();
 
         val userRequest = new UserRequestDto();
         userRequest.setUserName("Marco");
@@ -57,14 +58,14 @@ class UserControllerTest {
     @Test
     void getAllUsers() {
         val job = Job.builder().jobName("muratore").build();
-        val user1 = User.builder().userId(12L).name("Marco").job(job).build();
-        val user2 = User.builder().userId(122L).name("Michele").job(job).build();
+        val user1 = User.builder().userId(12L).userName("Marco").job(job).build();
+        val user2 = User.builder().userId(122L).userName("Michele").job(job).build();
 
         when(userServiceImpl.getAllUsers()).thenReturn(List.of(user1, user2));
 
         val result = userController.getAllUsers();
 
-        val expectedUsers = UserMapper.usersConverterToDtos(List.of(user1, user2));
+        val expectedUsers = UserAutoMapper.INSTANCE.usersToUserDtos(List.of(user1, user2));
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(expectedUsers, result);
@@ -76,13 +77,13 @@ class UserControllerTest {
     void getUserById() {
         val userId = 12L;
         val job = Job.builder().jobName("muratore").build();
-        val user = User.builder().userId(12L).name("Marco").job(job).build();
+        val user = User.builder().userId(12L).userName("Marco").job(job).build();
 
         when(userServiceImpl.getUserById(userId)).thenReturn(Optional.of(user));
 
         val result = userController.getUserById(userId);
 
-        val expectedUser = UserMapper.userConvertererToDto(user);
+        val expectedUser = UserAutoMapper.INSTANCE.userToUserDto(user);
 
         assertEquals(expectedUser, result);
 
@@ -93,7 +94,7 @@ class UserControllerTest {
     void updateUser() {
         val userId = 12L;
 
-        val user = User.builder().userId(userId).name("Marco").build();
+        val user = User.builder().userId(userId).userName("Marco").build();
 
         userController.updateUser(userId, user);
 
@@ -117,13 +118,13 @@ class UserControllerTest {
 
         val exampleFilter = "Lu";
 
-        val user = User.builder().userId(12L).name("Luca").build();
+        val user = User.builder().userId(12L).userName("Luca").build();
 
-        when(userServiceImpl.retrieveSerializedNamesByUserName(exampleFilter)).thenReturn(user.getName());
+        when(userServiceImpl.retrieveSerializedNamesByUserName(exampleFilter)).thenReturn(user.getUserName());
 
         val result = userController.getUserByChar(exampleFilter);
 
-        assertEquals(user.getName(), result);
+        assertEquals(user.getUserName(), result);
         verify(userServiceImpl, times(1)).retrieveSerializedNamesByUserName(exampleFilter);
 
     }
