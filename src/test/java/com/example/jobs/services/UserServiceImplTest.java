@@ -51,8 +51,8 @@ class UserServiceImplTest {
 
     @Test
     void getAllUsers() {
-        val user1 = User.builder().name("Marco").userId(23L).build();
-        val user2 = User.builder().name("Luca").userId(324L).build();
+        val user1 = User.builder().userName("Marco").userId(23L).build();
+        val user2 = User.builder().userName("Luca").userId(324L).build();
 
         when(userRepository.findAll()).thenReturn(List.of(user1, user2));
 
@@ -70,9 +70,9 @@ class UserServiceImplTest {
     void updateUser() {
         val userId = 213L;
 
-        val user = User.builder().name("Marco").userId(userId).build();
+        val user = User.builder().userName("Marco").userId(userId).build();
 
-        val newUser = User.builder().name("Lorenzo").build();
+        val newUser = User.builder().userName("Lorenzo").build();
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
@@ -104,7 +104,7 @@ class UserServiceImplTest {
     void getUserById() {
         val userId = 12L;
 
-        val user = User.builder().name("Marco").userId(userId).build();
+        val user = User.builder().userName("Marco").userId(userId).build();
 
         when(userServiceImpl.getUserById(userId)).thenReturn(Optional.of(user));
         val result = userServiceImpl.getUserById(12L);
@@ -120,15 +120,15 @@ class UserServiceImplTest {
     void retrieveSerializedNamesByUserName() {
         val chars = "lu";
 
-        val user = User.builder().name("Luca").userId(12L).build();
+        val user = User.builder().userName("Luca").userId(12L).build();
 
-        when(userRepository.findByNameStartingWith(chars)).thenReturn(List.of(user));
+        when(userRepository.findByUserNameStartingWith(chars)).thenReturn(List.of(user));
 
         val resultString = userServiceImpl.retrieveSerializedNamesByUserName(chars);
 
 
         assertNotNull(resultString);
-        assertEquals(resultString, user.getName());
+        assertEquals(resultString, user.getUserName());
 
     }
 
@@ -137,15 +137,15 @@ class UserServiceImplTest {
 
         val chars = "lu";
 
-        val user = User.builder().name("Luca").userId(12L).build();
+        val user = User.builder().userName("Luca").userId(12L).build();
 
-        when(userRepository.findNamesByNameStartingWith(chars)).thenReturn(List.of(user.getName()));
+        when(userRepository.findUserNamesByNameStartingWith(chars)).thenReturn(List.of(user.getUserName()));
 
         val resultString = userServiceImpl.retrieveSerializedNamesByUserNamev2(chars);
 
 
         assertNotNull(resultString);
-        assertEquals(resultString, user.getName());
+        assertEquals(resultString, user.getUserName());
     }
 
     @Test
@@ -153,14 +153,14 @@ class UserServiceImplTest {
 
         val chars = "lu";
 
-        val user = User.builder().name("Luca").userId(12L).build();
+        val user = User.builder().userName("Luca").userId(12L).build();
 
-        when(userRepository.findNamesByNameStartingWith(chars)).thenReturn(List.of(user.getName()));
+        when(userRepository.findUserNamesByNameStartingWith(chars)).thenReturn(List.of(user.getUserName()));
 
         val resultString = userServiceImpl.retrieveSerializedNamesByUserNamev3(chars);
 
 
         assertNotNull(resultString);
-        assertEquals(resultString, user.getName());
+        assertEquals(resultString, user.getUserName());
     }
 }

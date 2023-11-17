@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public  ResponseEntity<String> handleNotFoundException (UsersByNameNotFoundException e){
         log.error("Not found exception:", e);
-        return  ResponseEntity.badRequest().body(e.getMessage());
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
 }

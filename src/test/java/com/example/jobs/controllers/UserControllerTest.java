@@ -1,6 +1,8 @@
 package com.example.jobs.controllers;
 
 import com.example.jobs.dto.UserRequestDto;
+import com.example.jobs.mappers.UserMapper;
+import com.example.jobs.models.Job;
 import com.example.jobs.models.User;
 import com.example.jobs.services.Impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,8 @@ import static org.mockito.Mockito.*;
 @Slf4j
 class UserControllerTest {
 
+    @Mock
+    private UserMapper userMapper;
     @Mock
     private UserServiceImpl userServiceImpl;
 
@@ -52,17 +56,18 @@ class UserControllerTest {
 
     @Test
     void getAllUsers() {
-        val user1 = User.builder().userId(12L).name("Marco").build();
-        val user2 = User.builder().userId(122L).name("Michele").build();
+        val job = Job.builder().jobName("muratore").build();
+        val user1 = User.builder().userId(12L).name("Marco").job(job).build();
+        val user2 = User.builder().userId(122L).name("Michele").job(job).build();
 
         when(userServiceImpl.getAllUsers()).thenReturn(List.of(user1, user2));
 
         val result = userController.getAllUsers();
 
+        val expectedUsers = UserMapper.usersConverterToDtos(List.of(user1, user2));
         assertNotNull(result);
         assertEquals(2, result.size());
-        assertEquals(user1, result.get(0));
-        assertEquals(user2, result.get(1));
+        assertEquals(expectedUsers, result);
 
         verify(userServiceImpl, times(1)).getAllUsers();
     }
@@ -70,13 +75,16 @@ class UserControllerTest {
     @Test
     void getUserById() {
         val userId = 12L;
-        val user = User.builder().userId(12L).name("Marco").build();
+        val job = Job.builder().jobName("muratore").build();
+        val user = User.builder().userId(12L).name("Marco").job(job).build();
 
         when(userServiceImpl.getUserById(userId)).thenReturn(Optional.of(user));
 
         val result = userController.getUserById(userId);
 
-        assertEquals(user, result);
+        val expectedUser = UserMapper.userConvertererToDto(user);
+
+        assertEquals(expectedUser, result);
 
         verify(userServiceImpl, times(1)).getUserById(userId);
     }
@@ -106,7 +114,6 @@ class UserControllerTest {
 
     @Test
     void getUserByChar() {
-
 
         val exampleFilter = "Lu";
 

@@ -3,7 +3,6 @@ package com.example.jobs.services.Impl;
 import com.example.jobs.dto.UserDto;
 import com.example.jobs.exceptions.InvalidSearchKeyException;
 import com.example.jobs.exceptions.UsersByNameNotFoundException;
-import com.example.jobs.mappers.UserMapper;
 import com.example.jobs.models.Job;
 import com.example.jobs.models.User;
 import com.example.jobs.repositories.JobRepository;
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService {
             jobRepository.save(job.get());
         }
         val user = new User();
-        user.setName(userName);
+        user.setUserName(userName);
         user.setJob(job.get());
         log.info("End - addUser - out: {}", user);
         userRepository.save(user);
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
         log.info("Start - updateUser - args: id e user {} {} ", idToUpdate, user);
         userRepository.findById(idToUpdate)
                 .map(u -> {
-                    u.setName(user.getName());
+                    u.setUserName(user.getUserName());
                     userRepository.save(u);
                     log.info("End - updateUser - out {} ", u);
                     return u;
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserById(Long id){
         log.info("Start - getUserById - args: id={}", id);
         val user = userRepository.findById(id);
-        log.info("Start - getUserById - out:{}", user);
+        log.info("End - getUserById - out:{}", user);
         return user;
 
     }
@@ -77,13 +76,13 @@ public class UserServiceImpl implements UserService {
         if (!StringValidationUtils.areOnlyLetters(searchKey)){
             throw new InvalidSearchKeyException("not valid input");
         }
-        val  userList = userRepository.findByNameStartingWith(searchKey);
+        val  userList = userRepository.findByUserNameStartingWith(searchKey);
         if (userList.isEmpty()){
             throw new UsersByNameNotFoundException("no record found");
         }
         val users = new StringBuilder();
         for (val user : userList) {
-            users.append(user.getName()).append(", ");
+            users.append(user.getUserName()).append(", ");
         }
         log.info("End - getUserByChar - out: {}", users);
         return users.substring(0, users.length()-2);
@@ -93,7 +92,7 @@ public class UserServiceImpl implements UserService {
         if (!StringValidationUtils.areOnlyLetters(searchKey)){
             throw new InvalidSearchKeyException("not valid input");
         }
-        val  userList = userRepository.findNamesByNameStartingWith(searchKey);
+        val  userList = userRepository.findUserNamesByNameStartingWith(searchKey);
         if (userList.isEmpty()){
             throw new UsersByNameNotFoundException("no record found");
         }
@@ -110,7 +109,7 @@ public class UserServiceImpl implements UserService {
         if (!StringValidationUtils.areOnlyLetters(searchKey)) {
             throw new InvalidSearchKeyException("not valid input");
         }
-        val userList = userRepository.findNamesByNameStartingWith(searchKey);
+        val userList = userRepository.findUserNamesByNameStartingWith(searchKey);
         if (userList.isEmpty()) {
             throw new UsersByNameNotFoundException("no record found");
         }

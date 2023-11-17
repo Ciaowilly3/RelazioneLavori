@@ -9,13 +9,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> findByName(String name);
+    List<User> findByUserName(String userName);
     List<User> findByJob(Job job);
-    List <User> findByNameStartingWith(String filters);
+    List <User> findByUserNameStartingWith(String filters);
 
 //    Long findUserIdByUserName(String userName);
 
-    @Query("SELECT u.name FROM User u WHERE u.name LIKE :searchKey%")
-    List<String> findNamesByNameStartingWith(@Param("searchKey") String searchKey);
+    @Query("SELECT u.userName FROM User u WHERE u.userName LIKE :searchKey%")
+    List<String> findUserNamesByNameStartingWith(@Param("searchKey") String searchKey);
 
 }

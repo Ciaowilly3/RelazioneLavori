@@ -1,10 +1,7 @@
 package com.example.jobs.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
@@ -19,7 +16,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     @Column(name = "user_name")
-    private String name;
+    @Getter
+    @Setter
+    private String userName;
 
     @ManyToOne
     @JoinColumn(name = "job_id", nullable = false)

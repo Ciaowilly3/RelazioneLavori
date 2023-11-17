@@ -2,7 +2,8 @@ package com.example.jobs.controllers;
 
 import com.example.jobs.dto.JobDto;
 import com.example.jobs.exceptions.UsersByNameNotFoundException;
-import com.example.jobs.mappers.JobMapper;
+import com.example.jobs.mappers.JobAutoMapper;
+//import com.example.jobs.mappers.JobMapper;
 import com.example.jobs.models.Job;
 import com.example.jobs.services.Impl.JobServiceImpl;
 import lombok.val;
@@ -23,7 +24,7 @@ public class JobController {
     public void addJob(@RequestBody Job job){jobServiceImpl.addJob(job);}
 
     @GetMapping
-    public List<JobDto> getAllJobs(){return JobMapper.jobsConverterToDtos(jobServiceImpl.getAllJobs());}
+    public List<JobDto> getAllJobs(){return JobAutoMapper.INSTANCE.jobsToJobsDtos(jobServiceImpl.getAllJobs());}
 
     @GetMapping(path = "/singleJob/{id}")
     public JobDto getJobById(@PathVariable("id") Long id){
@@ -31,7 +32,7 @@ public class JobController {
         if (job.isEmpty()){
             throw new UsersByNameNotFoundException("Job not found with id:" + id);
         }
-        return JobMapper.jobConverterToDto(job.get());
+        return JobAutoMapper.INSTANCE.jobToJobDto(job.get());
     }
     @PutMapping(path = "/{id}")
     public void updateJob(@PathVariable("id") Long id,@RequestBody Job job){
@@ -40,7 +41,7 @@ public class JobController {
 
     @GetMapping(path = "/{name}")
     public List<JobDto> findByUserName(@PathVariable("name") String name){
-        return JobMapper.jobsConverterToDtos(jobServiceImpl.findByUserName(name));
+        return JobAutoMapper.INSTANCE.jobsToJobsDtos(jobServiceImpl.findByUserName(name));
     }
 
     @DeleteMapping(path = "{id}")

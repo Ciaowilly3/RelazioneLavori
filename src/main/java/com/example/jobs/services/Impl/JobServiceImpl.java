@@ -73,7 +73,7 @@ public class JobServiceImpl implements JobService {
 
     public List<Job> findByUserName(String name){
         log.info("Start - findByUserName - args: name={}", name);
-        val userList = userRepository.findByName(name);
+        val userList = userRepository.findByUserName(name);
         val job = userList.stream().map(User::getJob).toList();
         log.info("End - findByUserName - out: {}", job);
         return job;

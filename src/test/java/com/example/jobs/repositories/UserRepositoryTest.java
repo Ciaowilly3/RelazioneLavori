@@ -22,20 +22,20 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserRepositoryTest {
 
-    @InjectMocks
+    @Mock
     private UserServiceImpl userServiceImpl;
-    @InjectMocks
+    @Mock
     private JobServiceImpl jobServiceImpl;
-    @InjectMocks
+    @Mock
     private UserRepository userRepository;
     @Test
     void findByName() {
 
-        val user = User.builder().name("Marco").userId(23L).build();
+        val user = User.builder().userName("Marco").userId(23L).build();
 
-        when(userRepository.findByName("Marco")).thenReturn(List.of(user));
+        when(userRepository.findByUserName("Marco")).thenReturn(List.of(user));
 
-        val result = userRepository.findByName("Marco");
+        val result = userRepository.findByUserName("Marco");
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -46,7 +46,7 @@ class UserRepositoryTest {
     void findByjob() {
         val job = Job.builder().jobId(1L).jobName("dentista").build();
 
-        val user = User.builder().name("Marco").userId(23L).build();
+        val user = User.builder().userName("Marco").userId(23L).build();
 
         when(userRepository.findByJob(job)).thenReturn(List.of(user));
 
@@ -61,17 +61,17 @@ class UserRepositoryTest {
     void findByNameStartingWith() {
         val startingChars = "lu";
 
-        userRepository.findByNameStartingWith(startingChars);
+        userRepository.findByUserNameStartingWith(startingChars);
 
-        verify(userRepository, times(1)).findByNameStartingWith(startingChars);
+        verify(userRepository, times(1)).findByUserNameStartingWith(startingChars);
     }
 
     @Test
     void findNamesByNameStartingWith() {
         val startingChars = "lu";
 
-        userRepository.findByNameStartingWith(startingChars);
+        userRepository.findByUserNameStartingWith(startingChars);
 
-        verify(userRepository, times(1)).findByNameStartingWith(startingChars);
+        verify(userRepository, times(1)).findByUserNameStartingWith(startingChars);
     }
 }

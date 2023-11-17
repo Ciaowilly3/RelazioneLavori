@@ -3,7 +3,8 @@ package com.example.jobs.controllers;
 import com.example.jobs.dto.UserDto;
 import com.example.jobs.dto.UserRequestDto;
 import com.example.jobs.exceptions.UsersByNameNotFoundException;
-import com.example.jobs.mappers.UserMapper;
+import com.example.jobs.mappers.UserAutoMapper;
+//import com.example.jobs.mappers.UserMapper;
 import com.example.jobs.models.User;
 import com.example.jobs.services.Impl.UserServiceImpl;
 import jakarta.validation.constraints.NotBlank;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDto> getAllUsers(){return UserMapper.usersConverterToDtos(userServiceImpl.getAllUsers());}
+    public List<UserDto> getAllUsers(){return UserAutoMapper.INSTANCE.usersToUserDtos(userServiceImpl.getAllUsers());}
 
     @GetMapping(path = "/{id}")
     public UserDto getUserById (@PathVariable("id") Long id) {
@@ -38,7 +39,7 @@ public class UserController {
         if (user.isEmpty()){
             throw new UsersByNameNotFoundException("User not found with id: " + id.toString());
         }
-        return UserMapper.userConvertererToDto(user.get());
+        return UserAutoMapper.INSTANCE.userToUserDto(user.get());
     }
     @PutMapping(path = "{id}")
     public  void updateUser(@PathVariable("id") Long id, @RequestBody User userToUpdate){

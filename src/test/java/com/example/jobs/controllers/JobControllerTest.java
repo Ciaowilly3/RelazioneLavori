@@ -4,6 +4,7 @@ import com.example.jobs.dto.JobDto;
 import com.example.jobs.models.Job;
 import com.example.jobs.services.Impl.JobServiceImpl;
 import lombok.val;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
