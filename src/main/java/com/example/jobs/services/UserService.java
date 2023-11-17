@@ -1,5 +1,6 @@
 package com.example.jobs.services;
 
+import com.example.jobs.dto.UserDto;
 import com.example.jobs.models.User;
 
 import java.util.List;

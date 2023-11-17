@@ -26,7 +26,7 @@ class UserRepositoryTest {
     private UserServiceImpl userServiceImpl;
     @InjectMocks
     private JobServiceImpl jobServiceImpl;
-    @Mock
+    @InjectMocks
     private UserRepository userRepository;
     @Test
     void findByName() {

@@ -1,7 +1,9 @@
 package com.example.jobs.services.Impl;
 
+import com.example.jobs.dto.UserDto;
 import com.example.jobs.exceptions.InvalidSearchKeyException;
 import com.example.jobs.exceptions.UsersByNameNotFoundException;
+import com.example.jobs.mappers.UserMapper;
 import com.example.jobs.models.Job;
 import com.example.jobs.models.User;
 import com.example.jobs.repositories.JobRepository;

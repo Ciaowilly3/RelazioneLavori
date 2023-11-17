@@ -1,6 +1,7 @@
 package com.example.jobs.configuration;
 
 import com.example.jobs.exceptions.InvalidSearchKeyException;
+import com.example.jobs.exceptions.UsersByNameNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,12 @@ public class GlobalExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .orElse( "Generic error");*/
         log.error("Invalid Exeption erro:", e);
+        return  ResponseEntity.badRequest().body(e.getMessage());
+    }
+    @ExceptionHandler(UsersByNameNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public  ResponseEntity<String> handleNotFoundException (UsersByNameNotFoundException e){
+        log.error("Not found exception:", e);
         return  ResponseEntity.badRequest().body(e.getMessage());
     }
 

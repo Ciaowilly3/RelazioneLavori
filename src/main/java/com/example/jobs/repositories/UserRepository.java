@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByJob(Job job);
     List <User> findByNameStartingWith(String filters);
 
+//    Long findUserIdByUserName(String userName);
+
     @Query("SELECT u.name FROM User u WHERE u.name LIKE :searchKey%")
     List<String> findNamesByNameStartingWith(@Param("searchKey") String searchKey);
 
